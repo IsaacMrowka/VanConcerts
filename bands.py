@@ -2,6 +2,7 @@ import requests
 import json
 import shutil
 import os
+import datetime
 
 url = "https://seatgeek.ca/api/events?page=1&listing_count.gte=1&lat=49.278149780386&lon=-123.115234375&range=23mi&sort=datetime_local.asc&taxonomies.id=2000000&client_id=MTY2MnwxMzgzMzIwMTU4"
 
@@ -31,12 +32,15 @@ response = requests.request("GET", url, headers=headers, data=payload)
 jsondata = json.loads(response.text)
 
 os.remove("C:/Users/imrow/Desktop/BandsPlaying.txt")
+f = open("BandsPlaying.txt", "a")
+print(datetime.date.today(), file=f)
 
 for band in jsondata['events']:
     artist = band['performers'][0]['name']
     time = band['datetime_utc']
     place = band['venue']['name_v2']
-    f = open("BandsPlaying.txt", "a")
     print(artist, ", Time: ", time,", Place: ", place, file=f )
-    f.close()
+
+f.close()
+
 shutil.move("C:/Users/imrow/Documents/CODE/VisualStudioCode/VanConcerts/BandsPlaying.txt", "C:/Users/imrow/Desktop/BandsPlaying.txt")
