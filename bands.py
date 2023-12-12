@@ -4,6 +4,8 @@ import shutil
 import os
 import datetime
 
+#scraping portion
+
 url = "https://seatgeek.ca/api/events?page=1&listing_count.gte=1&lat=49.278149780386&lon=-123.115234375&range=23mi&sort=datetime_local.asc&taxonomies.id=2000000&client_id=MTY2MnwxMzgzMzIwMTU4"
 
 payload = {}
@@ -31,8 +33,18 @@ response = requests.request("GET", url, headers=headers, data=payload)
 
 jsondata = json.loads(response.text)
 
-os.remove("C:/Users/imrow/Desktop/BandsPlaying.txt")
-f = open("BandsPlaying.txt", "a")
+#text file portion
+
+# Set the source and destination paths
+
+desired_working_dir = "C:/Users/imrow/Documents/CODE/VisualStudioCode/VanConcerts/"
+os.chdir(desired_working_dir)
+print("Current Working Directory:", os.getcwd())
+
+source_path = "C:/Users/imrow/Documents/CODE/VisualStudioCode/VanConcerts/BandsPlaying.txt"
+destination_path = "C:/Users/imrow/Desktop/BandsPlaying.txt"
+
+f = open("BandsPlaying.txt", "w")
 print(datetime.date.today(), file=f)
 
 for band in jsondata['events']:
@@ -42,5 +54,4 @@ for band in jsondata['events']:
     print(artist, ", Time: ", time,", Place: ", place, file=f )
 
 f.close()
-
-shutil.move("C:/Users/imrow/Documents/CODE/VisualStudioCode/VanConcerts/BandsPlaying.txt", "C:/Users/imrow/Desktop/BandsPlaying.txt")
+shutil.move(source_path, destination_path)
