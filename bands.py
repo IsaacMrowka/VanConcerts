@@ -33,7 +33,6 @@ response = requests.request("GET", url, headers=headers, data=payload)
 
 jsondata = json.loads(response.text)
 
-#text file portion
 
 # Set the source and destination paths
 
@@ -42,16 +41,18 @@ os.chdir(desired_working_dir)
 print("Current Working Directory:", os.getcwd())
 
 source_path = "C:/Users/imrow/Documents/CODE/VisualStudioCode/VanConcerts/BandsPlaying.txt"
-destination_path = "C:/Users/imrow/Desktop/BandsPlaying.txt"
+#destination_path = "C:/Users/imrow/Desktop/BandsPlaying.txt"
+
+#text file portion
 
 f = open("BandsPlaying.txt", "w")
-print(datetime.date.today(), file=f)
+print("Date updated: ",datetime.date.today(), "\n", file=f)
 
 for band in jsondata['events']:
     artist = band['performers'][0]['name']
     time = band['datetime_utc']
     place = band['venue']['name_v2']
-    print(artist, ", Time: ", time,", Place: ", place, file=f )
+    print(artist, "| Date: ", time,"| Venue: ", place, "\n", file=f)
 
 f.close()
-shutil.move(source_path, destination_path)
+#shutil.move(source_path, destination_path)
